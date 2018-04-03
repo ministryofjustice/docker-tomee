@@ -163,6 +163,9 @@
                prefix="localhost_access_log" suffix=".txt"
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 
+        <!-- disable information leakage in default error pages" -->
+        <Valve className="org.apache.catalina.valves.ErrorReportValve"
+               showServerInfo="false" showReport="false" />
       </Host>
     </Engine>
   </Service>

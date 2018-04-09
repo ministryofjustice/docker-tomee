@@ -68,9 +68,22 @@
          APR (HTTP/AJP) Connector: /docs/apr.html
          Define a non-SSL/TLS HTTP/1.1 Connector on port 8080
     -->
-    <Connector port="8080" protocol="HTTP/1.1"
-               connectionTimeout="20000"
-               redirectPort="8443" xpoweredBy="false" server="" />
+
+      <!-- Define a non-SSL/TLS HTTP/1.1 Connector on port 8080 which allows Tomcat to see the SSL attributes of the
+                 connections between the client and the proxy rather than the proxy and Tomcat.  Normally used when Tomcat
+                 is located behind a reverse proxy and the proxy is connecting to Tomcat via HTTP -->
+      <Connector
+              port="8080"
+              protocol="HTTP/1.1"
+              connectionTimeout="20000"
+              redirectPort="8443"
+              xpoweredBy="false"
+              server=""
+              proxyPort="${connector.proxy.port}"
+              scheme="${connector.scheme}"
+              secure="true"
+              URIEncoding="UTF-8"/>
+
     <!-- A "Connector" using the shared thread pool-->
     <!--
     <Connector executor="tomcatThreadPool"

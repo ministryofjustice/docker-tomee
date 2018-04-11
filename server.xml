@@ -79,6 +79,7 @@
               redirectPort="8443"
               xpoweredBy="false"
               server=""
+              compression="on"
               proxyPort="${connector.proxy.port}"
               scheme="${connector.scheme}"
               secure="true"

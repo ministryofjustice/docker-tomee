@@ -7,6 +7,14 @@ ENV TOMCAT_HOME /usr/local/tomee
 ENV TOMCAT_CONNECTOR_PROXY_PORT 443
 ENV TOMCAT_CONNECTOR_SCHEME https
 
+# It is assumed that if you override this, you provide suitable values for
+# these system properties. They are used in server.xml to configure the HTTP
+# Connector
+ENV CATALINA_OPTS="\
+    -Dconnector.proxy.port=${TOMCAT_CONNECTOR_PROXY_PORT} \
+    -Dconnector.scheme=${TOMCAT_CONNECTOR_SCHEME} \
+"
+
 RUN rm -rf ${TOMCAT_HOME}/webapps/*
 
 # * create a tomee user/group without a home dir

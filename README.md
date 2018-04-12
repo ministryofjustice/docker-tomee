@@ -18,26 +18,42 @@ Exported environment variables
 TOMCAT_HOME                 | usr/local/tomee | Installed location for Tomcat
 TOMCAT_CONNECTOR_PROXY_PORT | 443             | Configure this attribute to specify the server port to be returned for calls to request.getServerPort()
 TOMCAT_CONNECTOR_SCHEME | https           | Set this attribute to the name of the protocol you wish to have returned by calls to request.getScheme()
+CATALINA_OPTS | -Dconnector.proxy.port=443 -Dconnector.scheme=https | Options used to configure Tomcat
 
-Usage
------
-When creating your own docker image from this base image, you must have the following in your Dockerfile: 
-- *optional*: specify custom values for the custom connector environment variables
-- **required**: set the CATALINA_OPTS environment variable to inject the new HTTP connector environment variables
-and then run the catalina.sh command to start tomcat:
+Required system properties
+--------------------------
  
- ```sh
-ENV TOMCAT_CONNECTOR_PROXY_PORT 8080
-ENV TOMCAT_CONNECTOR_SCHEME http
+Name | Value | Description
+--- | --- | ---
+connector.proxy.port | 443 | Configure this attribute to specify the server port to be returned for calls to request.getServerPort()
+connector.scheme | https | Set this attribute to the name of the protocol you wish to have returned by calls to request.getScheme()
 
-CMD CATALINA_OPTS="$CATALINA_OPTS \
-    -Dconnector.proxy.port=$TOMCAT_CONNECTOR_PROXY_PORT \
-    -Dconnector.scheme=$TOMCAT_CONNECTOR_SCHEME" \
-    catalina.sh run
+These are secure-by-default settings which assume that the Docker image is
+running behind a reverse-proxy that is responsible for terminating TLS. It
+ensures that Tomcat (and any libraries that your application uses) assume
+that it is running in a secure configuration, and behave accordingly.
+
+For local development, you may want to drop these. In your Dockerfile, you may want:
+
+```
+ENV CATALINA_OPTS="\
+    -Dconnector.proxy.port=${TOMCAT_CONNECTOR_PROXY_PORT} \
+    -Dconnector.scheme=${TOMCAT_CONNECTOR_SCHEME} \
+"
 ```
 
-Alternatively you can specify overrides of the environment variables with runtime arguments:
+You can then run it locally using:
 
-```sh
-docker container run -e TOMCAT_CONNECTOR_PROXY_PORT=8080 -e TOMCAT_CONNECTOR_SCHEME=http myhardenedcontainer
+```
+docker run --rm -it \
+    -e TOMCAT_CONNECTOR_PROXY_PORT=8080 `
+    -e TOMCAT_CONNECTOR_SCHEME=http \
+    my/image
+``` can then run it locally using:
+
+```
+docker run --rm -it \
+    -e TOMCAT_CONNECTOR_PROXY_PORT=8080 `
+    -e TOMCAT_CONNECTOR_SCHEME=http \
+    my/image
 ```

@@ -81,7 +81,7 @@
               server=""
               proxyPort="${connector.proxy.port}"
               scheme="${connector.scheme}"
-              secure="true"
+              secure="${connector.secure}"
               URIEncoding="UTF-8"/>
 
     <!-- A "Connector" using the shared thread pool-->

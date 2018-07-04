@@ -17,3 +17,5 @@ RUN useradd -M tomee && usermod -L tomee && chown -R tomee:tomee ${TOMCAT_HOME}
 USER tomee
 
 COPY server.xml ${TOMCAT_HOME}/conf/
+COPY tomcat-users.xml ${TOMCAT_HOME}/conf/
+COPY tomee.xml ${TOMCAT_HOME}/conf/

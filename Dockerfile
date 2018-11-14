@@ -1,7 +1,7 @@
 # We use the digest (which is immutable) rather than the tag (which is mutable)
 # This allows us to pin the version and choose when to upgrade/take fixes.
-# This is based on tomee-7.0.3-webprofile
-FROM tomee@sha256:6041e01207fd990dcac84f8094094b502ff395bae5bbba8202f1f9060ea64d63
+# This is based on tomee:8-jre-7.0.5-webprofile
+FROM tomee@sha256:99896125a5f0b7731b427cfc8442add40969c5fe27204cef6d35ce4e1199dd2a
 
 ENV TOMCAT_HOME /usr/local/tomee
 ENV TOMCAT_CONNECTOR_PROXY_PORT 443
